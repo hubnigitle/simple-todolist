@@ -1,0 +1,48 @@
+*{
+    background-color: khaki;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+form {
+    margin-left: 20px;
+}
+
+#form-todo {
+    background-color: #ffffff; /* Warna latar belakang form */
+    padding: 20px; /* Padding untuk ruang di sekitar form */
+    border-radius: 8px; /* Menggunakan border-radius untuk sudut yang lebih lembut */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Efek bayangan untuk menonjolkan form */
+}
+
+#form-todo-body {
+    background-color: #ffffff; /* Warna latar belakang tbody */
+}
+
+#form-todo tr, td , label, input{
+    background-color: #ffffff; /* Warna latar belakang setiap baris dan sel */
+}
+
+
+#todolist{
+    margin-left: 20px;
+}
+
+#todolist tr,
+#todolist th,
+#todolist td{
+    padding: 5px 10px 5px 10px;
+    margin-left: 5px;
+}
+
+#btn-add,
+#todolist tbody td input{
+    background-color: rgb(82, 82, 208);
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+#btn-add:hover,
+#todolist tbody td input:hover{
+    background-color: rgb(50, 153, 237);
+}
+
