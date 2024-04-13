@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todolist</title>
+</head>
+<body>
+
+<form name="todoForm">
+  <table>
+    <tbody>
+    <tr>
+      <td><label for="todo">Todo:</label></td>
+      <td><input type="text" id="todo" name="todo" required></td>
+    </tr>
+    <tr>
+      <td><label for="deadline">Deadline:</label></td>
+      <td><input type="date" id="deadline" name="deadline" required></td>
+    </tr>
+    <tr>
+      <td><label for="jam">Time:</label></td>
+      <td><input type="time" id="jam" name="jam" required></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" value="Add"/></td>
+    </tr>
+    </tbody>
+  </table>
+</form>
+
+<h1>Todolist</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Filter by To Do:</th>
+    <th><input type="text" name="search" id="search"></th>
+
+    <th>Filter by Deadline:</th>
+    <th><input type="date" name="searchdl" id="searchdl"></th>
+  </tr>
+  </thead>
+  <tbody id="todolistBody">
+  <tr>
+    <td><input type="button" value="Done"></td>
+    <td>Todo Description</td>
+    <td >Deadline</td>
+    <td >Jam</td>
+  </tr>
+  </tbody>
+</table>
+
+<script>
+
+  const todolist = [];
+
+
+// Menghapus todolist agar tidak didisplay tumpuk (1, 1 2, 1 2 3)
+  function clearTodolist(){
+    const todolistBody = document.getElementById("todolistBody");
+    while(todolistBody.firstChild){
+      todolistBody.removeChild(todolistBody.firstChild);
+    }
+  }
+// Menghapus todolist berdasarkan indeks(ketika tekan tombol done) lalu mendisplay hasil dari list remove
+  function removeTodoList(index){
+    todolist.splice(index, 1);
+    displayTodolist();
+  }
+//Menambahkan list
+  function addTodoList(index, todo, deadline, jam){
+
+    //menambahkan elemen tr dan td dibagian bawah (appendChild)
+    const tr = document.createElement("tr");
+    const tdButton = document.createElement("td");
+    tr.appendChild(tdButton);
+
+    //membuat tombol create dibagian bawah(sesuai tr dan td yg baru)
+    const buttonDone = document.createElement("input");
+    buttonDone.type = "button";
+    buttonDone.value = "Done";
+    buttonDone.onclick = function (){
+      removeTodoList(index);
+      
+    }; // memanggil remove ketika buttondone di klik
+    tdButton.appendChild(buttonDone);
+
+    // menambahkan td ke dalam tr (deskripsi todo)
+    const tdTodo = document.createElement("td");
+    tdTodo.textContent = todo;
+    tr.appendChild(tdTodo);
+
+    // menambahkan deadline
+    const tdDeadline = document.createElement("td");
+    tdDeadline.textContent = deadline;
+    tr.appendChild(tdDeadline);
+
+    //menambahkan jam
+    const tdJam = document.createElement("td");
+    tdJam.textContent = jam;
+    tr.appendChild(tdJam);
+
+    // menambahkan tr ke todolistbody
+    const todolistBody = document.getElementById("todolistBody");
+    todolistBody.appendChild(tr);
+  }
+
+// mendisplay todo yang sudah di add
+  function displayTodolist(){
+    clearTodolist();// menghapus todolist yg lama
+
+    // melakukan iterasi pada array todolist
+    for (let i = 0; i < todolist.length; i++) {
+      const todo = todolist[i][0];
+      const deadline = todolist[i][1];
+      const jam = todolist[i][2];
+    
+    //melakukan search todo dan deadline
+      const searchText = document.getElementById("search").value.toLowerCase();
+      const searchDeadline = document.getElementById("searchdl").value;
+
+    //mengecek apakah todo atau deadline cocok dengan pencarian
+      if(todo.toLowerCase().includes(searchText) && deadline.includes(searchDeadline)){
+        addTodoList(i, todo, deadline, jam);
+      }
+    }
+  }
+
+//prevent default untuk mencegah perilaku submit ke url default
+  document.forms['todoForm'].onsubmit = function (event){
+    event.preventDefault();
+
+    // push() menambah todo ke dalam todolist array
+    const todo = document.forms['todoForm']['todo'].value;
+    const deadline = document.forms['todoForm']['deadline'].value;
+    const jam = document.forms['todoForm']['jam'].value;
+
+    todolist.push([todo, deadline, jam]);
+
+    // membersihkan kembali kolom input setealh button add di klik
+    document.forms['todoForm'].reset();
+
+    console.info(todolist);
+    displayTodolist(); // setelah add diklik maka todo akan di display di todolist
+  };
+
+  
+  // melakukan display hasil pencarian setiap kali keyboard ditekan
+  const searchInput = document.getElementById("search");
+  searchInput.onkeyup = function (){
+    displayTodolist();
+  }
+  searchInput.onkeydown = function (){
+    displayTodolist();
+  }
+
+  const searchInputDeadline = document.getElementById("searchdl");
+  searchInputDeadline.onchange = function() {
+    displayTodolist();
+  };
+
+  displayTodolist();
+
+</script>
+
+</body>
+</html>
